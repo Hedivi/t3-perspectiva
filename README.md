@@ -296,11 +296,10 @@ Os resultados obtidos são armazenados no diretório `output/`.
 Trabalho desenvolvido por:
 
 -   Heloísa Dias Viotto
--   \[Nome do integrante\]
--   \[Nome do integrante\]
+-   Samuel Martins Gonçalves
 
 Universidade Federal do Paraná (UFPR)\
-Disciplina de Visão Computacional e Percepção
+Disciplina de Visão Computacional
 
 ## Referências
 

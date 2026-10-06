@@ -1,3 +1,22 @@
+"""
+Interface interativa para correção de perspectiva de documentos.
+
+Este script permite selecionar manualmente os quatro vértices de um
+documento presente em uma imagem. Os pontos são selecionados com cliques
+do mouse e utilizados para calcular e aplicar uma transformação 
+perspectiva.
+
+Após a seleção dos quatro pontos, o programa gera uma vista retificada do
+documento, exibe a matriz de homografia calculada e salva a imagem 
+resultante.
+
+Uso:
+    python3 manual.py <imagem> [-o <imagem_saida>]
+
+Exemplo:
+    python3 manual.py data/documento.jpeg -o output/documento.jpeg
+"""
+
 import argparse
 import cv2
 
@@ -7,6 +26,29 @@ points = []
 display = None
 
 def mouse_callback(event, x, y, flags, param):
+    """
+    Registra os pontos selecionados pelo usuário com o mouse.
+
+    A função é utilizada como callback da janela do OpenCV. A cada clique
+    com o botão esquerdo do mouse, as coordenadas do ponto são 
+    armazenadas. No máximo quatro pontos podem ser selecionados.
+
+    Cada ponto selecionado é destacado por um círculo vermelho e 
+    identificado numericamente na imagem exibida.
+
+    Args:
+        event (int): Tipo de evento do mouse detectado pelo OpenCV.
+        x (int): Coordenada horizontal do cursor na imagem.
+        y (int): Coordenada vertical do cursor na imagem.
+        flags (int): Indicadores adicionais relacionados ao evento do 
+            mouse.
+        param: Parâmetro opcional associado ao callback. Não utilizado 
+            nesta implementação.
+
+    Returns:
+        None
+    """
+
     global points
     global display
 
@@ -27,6 +69,35 @@ def mouse_callback(event, x, y, flags, param):
 
 
 def main():
+    """
+    Executa a seleção manual e a transformação perspectiva.
+
+    O caminho da imagem de entrada é recebido pela linha de comando. O
+    usuário deve selecionar quatro pontos correspondentes aos vértices do
+    documento utilizando o botão esquerdo do mouse.
+
+    Após selecionar os quatro pontos, a tecla ENTER confirma a seleção e
+    inicia a transformação perspectiva. A tecla ESC encerra o programa 
+    sem realizar a transformação.
+
+    A imagem retificada é salva no caminho especificado pelo argumento
+    ``--output`` e exibida em uma nova janela. As coordenadas 
+    selecionadas e a matriz de homografia também são apresentadas no 
+    terminal.
+
+    Argumentos de linha de comando:
+        image (str): Caminho para a imagem que será processada.
+        -o, --output (str): Caminho para salvar a imagem retificada.
+            O valor padrão é ``output.png``.
+
+    Raises:
+        FileNotFoundError: Se a imagem de entrada não puder ser 
+            carregada.
+        ValueError: Se o usuário não selecionar exatamente quatro pontos.
+
+    Returns:
+        None
+    """
 
     parser = argparse.ArgumentParser(
             description="Correção de perspectiva de documentos.")
